@@ -1,0 +1,6 @@
+export const getStartedImage = require('../../assets/images/getStartedpng.png')
+export const loginImage = require('../../assets/images/login.png')
+export const signupImage = require('../../assets/images/signup.png')
+export const googleIconImage = require('../../assets/images/google.png')
+export const facebookImage = require('../../assets/images/facebook.png')
+export const appleImage = require('../../assets/images/apple.png')
