@@ -19,7 +19,7 @@ const WelcomeScreen = () => {
             <Image source={getStartedImage} style={{ width: "100%", height: 250 }} />
 
             <View>
-                <Text style={{ color: primaryColor, fontWeight: 'bold', fontSize: 18 }}>Get Stared !</Text>
+                <Text style={{ color: primaryColor, fontWeight: 'bold', fontSize: 18 }}>Welcome to Tech Club !</Text>
                 <Text style={{ color: '#999999', fontWeight: 'bold', fontSize: 18 }}>Everything starts from here!</Text>
             </View>
             <View style={{ gap: 14 }}>

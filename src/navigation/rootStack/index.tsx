@@ -6,6 +6,9 @@ import WelcomeScreen from '../../screens/welcomeScreen'
 import AuthLoginScreen from '../../screens/login'
 import AuthSignUpScreen from '../../screens/signup'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import TestingPage from '../../screens/testing'
+import SplashScreen from '../../screens/splashScreen'
+import { navigationRef } from '../navigationUtils'
 
 const RootStackNavigator = () => {
     const myTheme = {
@@ -18,8 +21,8 @@ const RootStackNavigator = () => {
 
     const RookStack = createNativeStackNavigator<AuthNavigationType>()
     return (
-        <NavigationContainer theme={myTheme}>
-            <RookStack.Navigator screenOptions={{ headerShown: false, animation: 'ios_from_right' }} initialRouteName='WelcomeScreen'>
+        <NavigationContainer ref={navigationRef} theme={myTheme}>
+            <RookStack.Navigator screenOptions={{ headerShown: false, animation: 'ios_from_right' }} initialRouteName='SplashScreen'>
                 <RookStack.Screen
                     name='WelcomeScreen'
                     component={WelcomeScreen}
@@ -32,6 +35,11 @@ const RootStackNavigator = () => {
                     name='AuthSignUp'
                     component={AuthSignUpScreen}
                 />
+                <RookStack.Screen
+                    name='SplashScreen' 
+                    component={SplashScreen}
+                 />
+                 
             </RookStack.Navigator>
         </NavigationContainer>
     )

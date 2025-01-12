@@ -5,7 +5,8 @@ import { Control, Controller, FieldValues } from 'react-hook-form';
 type props = {
     name: string,
     control: Control<FieldValues, any>,
-    placeholder: string
+    placeholder: string,
+    error?:string
 }
 
 const CustomInput = ({ name, control, placeholder }: props) => {

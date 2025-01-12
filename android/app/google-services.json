@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "305941750346",
+    "project_id": "techclub-f5bba",
+    "storage_bucket": "techclub-f5bba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305941750346:android:24ba0205fb2558576ebcb3",
+        "android_client_info": {
+          "package_name": "com.techclub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzNq6lgeG9j3uZaMF4lCBc0ynpKOPDsvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
