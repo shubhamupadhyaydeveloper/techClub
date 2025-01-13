@@ -12,7 +12,6 @@ type props = {
 const CustomInput = ({ name, control, placeholder }: props) => {
     return (
         <View>
-        
             <Controller
                 control={control}
                 name={name}

@@ -11,7 +11,8 @@ type Props = {
     textSize?: number;
     textColor?: string;
     isSubmitting?: boolean;
-    isBorder?: boolean
+    isBorder?: boolean;
+    isDisable?: boolean;
 };
 
 const CustomButton = ({
@@ -23,29 +24,40 @@ const CustomButton = ({
     bgColor,
     textColor,
     isSubmitting,
-    isBorder
+    isBorder,
+    isDisable
 }: Props) => {
     const { width, height } = useWindowDimensions();
+    const isButtonDisabled = isSubmitting || isDisable;
+
     return (
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.7}
-            disabled={isSubmitting}
+            disabled={isButtonDisabled}
             style={{
                 width: btnWidth ?? width * 0.9,
                 height: height * 0.065,
                 borderRadius: radius ?? 12,
-                backgroundColor: bgColor ?? primaryColor,
+                backgroundColor: isButtonDisabled ? '#dadada' : bgColor ?? primaryColor,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderWidth : isBorder ? 2 : 0,
-                borderColor : primaryColor
-
-            }}>
-            <Text
-                style={{ color: textColor ?? 'white', fontFamily: 'OpenSans-Bold' }}>
-                {isSubmitting ? <ActivityIndicator size="large" color="#fff" /> : text}
-            </Text>
+                borderWidth: isBorder ? 2 : 0,
+                borderColor: isButtonDisabled ? '#b0b0b0' : primaryColor,
+            }}
+        >
+            {isSubmitting ? (
+                <ActivityIndicator size="large" color="#fff" />
+            ) : (
+                <Text
+                    style={{
+                        color: isButtonDisabled ? '#8e8e8e' : textColor ?? 'white',
+                        fontFamily: 'OpenSans-Bold',
+                    }}
+                >
+                    {text}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };

@@ -1,4 +1,4 @@
-import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import CustomButton from '../../components/Button/Button';
 import { primaryColor } from '../../constants/colors';
@@ -11,23 +11,25 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../types/zod/loginzod';
 import auth from '@react-native-firebase/auth'
+import { FirebaseError } from 'firebase/app';
+import { resetAndNavigate } from '../../navigation/navigationUtils';
 
 const AuthLoginScreen = () => {
   const navigation = useNavigation<NavigationProp<AuthNavigationType>>();
-  const { control, handleSubmit, formState: { isLoading } ,reset} = useForm({
+  const { control, handleSubmit, formState: { isLoading }, reset } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (value: FieldValues) => {
+  const onSubmit = async (value: FieldValues) => {
     try {
-      console.log(value)
-      auth().signInWithEmailAndPassword(value.email,value.password)
+      await auth().signInWithEmailAndPassword(value.email, value.password);
+      resetAndNavigate('HomeScreen')
     } catch (error: any) {
-      throw new Error(error)
+      const err = error as FirebaseError;
+      Alert.alert('Login failed', err.message);
     } finally {
-      reset()
+      reset();
     }
-
   }
 
   return (

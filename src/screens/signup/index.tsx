@@ -1,4 +1,4 @@
-import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useState } from 'react'
 import CustomButton from '../../components/Button/Button';
 import { primaryColor, secondaryTextColor } from '../../constants/colors';
@@ -13,20 +13,33 @@ import { FieldValues, useForm } from 'react-hook-form';
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import auth from '@react-native-firebase/auth'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema } from '../../types/zod/loginzod';
+import { FirebaseError } from 'firebase/app';
 
 
 const AuthSignUpScreen = () => {
   const navigation = useNavigation<NavigationProp<AuthNavigationType>>()
-  const { control, formState: { errors }, handleSubmit, reset } = useForm()
+  const { control, formState: { errors }, handleSubmit, reset } = useForm({
+    resolver: zodResolver(signupSchema)
+  })
   const [policyAgree, setPoliyAgree] = useState<boolean>(false)
 
-  const OnSubmit = (value: FieldValues) => {
-    if (policyAgree === true) {
-      console.log('this is values', value)
-      auth().createUserWithEmailAndPassword(value.email, value.password)
-      reset()
+  const OnSubmit = async (value: FieldValues) => {
+    if (!policyAgree) return;
+    try {
+      const userCredential = await auth().createUserWithEmailAndPassword(value.email, value.password);
+      await userCredential.user.updateProfile({
+        displayName: value.name,
+      });
+      navigation.navigate('AuthLogin')
+    } catch (error: any) {
+      const err = error as FirebaseError;
+      Alert.alert('Registration failed', err.message);
+    } finally {
+      reset();
     }
-  }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -49,7 +62,7 @@ const AuthSignUpScreen = () => {
               <CustomInput control={control} name='name' placeholder='Name' />
               <CustomInput control={control} name='email' placeholder='Email Address' />
               <CustomInput control={control} name='password' placeholder='Password' />
-              <CustomInput control={control} name='confirm-password' placeholder='Confirm Password' />
+              <CustomInput control={control} name='confirmPassword' placeholder='Confirm Password' />
             </View>
 
 
@@ -64,7 +77,7 @@ const AuthSignUpScreen = () => {
                     borderColor: '#dadada',
                     backgroundColor: policyAgree ? primaryColor : 'white',
                     alignItems: 'center',
-                    justifyContent: 'center', // Centers the icon vertically and horizontally
+                    justifyContent: 'center',
                   }}
                 >
                   {policyAgree ? (
@@ -79,7 +92,7 @@ const AuthSignUpScreen = () => {
               </Text>
             </View>
             <View>
-              <CustomButton text='Register' onPress={handleSubmit(OnSubmit)} bgColor={policyAgree ? primaryColor : '#dadada'} textColor={policyAgree ? 'white' : 'black'} />
+              <CustomButton isDisable={!policyAgree} text='Register' onPress={handleSubmit(OnSubmit)} bgColor={policyAgree ? primaryColor : '#dadada'} textColor={policyAgree ? 'white' : 'black'} />
             </View>
 
             <View style={{ height: 50 }} />

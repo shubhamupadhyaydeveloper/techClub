@@ -4,4 +4,5 @@ export type AuthNavigationType = {
   AuthSignUp: undefined;
   WelcomeScreen: undefined;
   SplashScreen : undefined;
+  HomeScreen: undefined
 };
