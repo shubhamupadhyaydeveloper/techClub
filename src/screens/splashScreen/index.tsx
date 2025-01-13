@@ -21,15 +21,11 @@ const SplashScreen = () => {
                 }
             } catch (error) {
                 console.error('Error retrieving user info:', error);
-                navigation.navigate('WelcomeScreen');
+                resetAndNavigate('WelcomeScreen');
             }
         };
 
-        const timeout = setTimeout(() => {
-            checkUser();
-        }, 3000);
-
-        return () => clearTimeout(timeout);
+        checkUser();
     }, [navigation]);
 
     return (
@@ -40,6 +36,5 @@ const SplashScreen = () => {
         </View>
     );
 };
-
 
 export default SplashScreen;
